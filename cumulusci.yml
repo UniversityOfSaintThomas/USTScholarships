@@ -21,3 +21,28 @@ tasks:
     run_tests:
         options:
             required_org_code_coverage_percent: 75
+
+    create_community:
+        description: Deploys configuration for Development.
+        class_path: cumulusci.tasks.salesforce.CreateCommunity
+        options:
+            name: EASY Applicant Portal
+            description: EASY application portal
+            template: Build Your Own
+            url_path_prefix: EASYApp
+
+    configure_community:
+        description: Deploys Network config for community for Development.
+        class_path: cumulusci.tasks.salesforce.Deploy
+        options:
+            namespace_inject: $project_config.project__package__namespace
+            path: unpackaged/config/network
+            unmanaged: True
+
+flows:
+    config_dev:
+        steps:
+            3:
+                task: create_community
+            4:
+                task: configure_community
