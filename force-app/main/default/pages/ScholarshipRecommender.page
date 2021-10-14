@@ -9,31 +9,31 @@
             <div class="row">
                 <div class="column">
                     <h2>
-                        {!ScholarshipInfo.Name}
+                        {!ScholarshipApplicant.Scholarship__r.Name}
                     </h2>
                 </div>
             </div>                          
             <apex:form rendered="{!!recComplete}" >
-                <apex:outputPanel rendered="{!IF(ISNULL(ScholarshipInfo.Name), false,true)}">
+                <apex:outputPanel rendered="{!IF(ISNULL(ScholarshipApplicant.Scholarship__r.Name), false,true)}">
                     <div class="row">
                         <div class="column">
-                            <apex:outputPanel rendered="{!IF(recNum == 1, true, false)}">
+                            <apex:outputPanel rendered="{!IF(incomingRecNum == 1, true, false)}">
                                 <p>
                                     Greetings {!ScholarshipApplicant.Recommender_Name__c},
                                 </p>
                                 <p>
                                     You have been requested
-                                    by
-                                    to provide a recommendation towards the {!ScholarshipInfo.Name}.
+                                    by {!ScholarshipApplicant.Applicant_First_Name__c} {!ScholarshipApplicant.Applicant_Last_Name__c}
+                                    to provide a recommendation towards the {!ScholarshipApplicant.Scholarship__r.Name}.
                                 </p>
                                 <p>
                                     <strong>Scholarship Description:</strong><br/>
-                                    <apex:outputText escape="false" value="{!ScholarshipInfo.Description__c}"></apex:outputText>
+                                    <apex:outputText escape="false" value="{!ScholarshipApplicant.Scholarship__r.Description__c}"></apex:outputText>
                                 </p>
-                                <apex:outputText rendered="{!IF(ISNULL(ScholarshipInfo.Recommender_Question__c), false, true)}">
+                                <apex:outputText rendered="{!IF(ISNULL(ScholarshipApplicant.Scholarship__r.Recommender_Question__c), false, true)}">
                                     <p>
                                         <strong>Your Question:</strong><br/>
-                                        <apex:outputText escape="false" value="{!ScholarshipInfo.Recommender_Question__c}"></apex:outputText>
+                                        <apex:outputText escape="false" value="{!ScholarshipApplicant.Scholarship__r.Recommender_Question__c}"></apex:outputText>
                                     </p>
                                 </apex:outputText>
                                 <p>
@@ -43,20 +43,20 @@
                                     <apex:commandLink action="{!Save}" Value="Submit" styleClass="button"/>
                                 </p>
                             </apex:outputPanel>
-                            <apex:outputPanel rendered="{!IF(recNum == 2, true, false)}">
+                            <apex:outputPanel rendered="{!IF(incomingRecNum == 2, true, false)}">
                                 <p>
                                     Greetings {!ScholarshipApplicant.Recommender2_Name__c},
                                 </p>
                                 <p>
                                     You have been requested
-                                    by
-                                    to provide a recommendation towards the {!ScholarshipInfo.Name}.
+                                    by {!ScholarshipApplicant.Applicant_First_Name__c} {!ScholarshipApplicant.Applicant_Last_Name__c}
+                                    to provide a recommendation towards the {!ScholarshipApplicant.Scholarship__r.Name}.
                                 </p>
-                                <apex:outputText escape="false" value='<strong>Scholarship Description:</strong><br/>{!ScholarshipInfo.Description__c}'/>
-                                <apex:outputText rendered="{!IF(ISNULL(ScholarshipInfo.Recommender2_Question__c), false, true)}">
+                                <apex:outputText escape="false" value='<strong>Scholarship Description:</strong><br/>{!ScholarshipApplicant.Scholarship__r.Description__c}'/>
+                                <apex:outputText rendered="{!IF(ISNULL(ScholarshipApplicant.Scholarship__r.Recommender2_Question__c), false, true)}">
                                     <p>
                                         <strong>Your Question:</strong><br/>
-                                        <apex:outputText escape="false" value="{!ScholarshipInfo.Recommender2_Question__c}"></apex:outputText>
+                                        <apex:outputText escape="false" value="{!ScholarshipApplicant.Scholarship__r.Recommender2_Question__c}"></apex:outputText>
                                     </p>
                                 </apex:outputText>
                                 <p>
@@ -78,7 +78,7 @@
             <apex:outputPanel rendered="{!recComplete}">
                 <div class="row">
                     <div class="column">
-                        Thank you for submitting your recommendation for.
+                        Thank you for submitting your recommendation for {!ScholarshipApplicant.Applicant_First_Name__c} {!ScholarshipApplicant.Applicant_Last_Name__c}.
                     </div>
                 </div>
             </apex:outputPanel>

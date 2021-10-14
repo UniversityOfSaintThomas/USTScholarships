@@ -9,7 +9,7 @@ public class ScholarshipController {
     public boolean e2Text { get; set; }
     public Attachment Essay1 { get {if (Essay1 == null) Essay1 = new Attachment(); return Essay1;} set; }
     public Attachment Essay2 { get {if (Essay2 == null) Essay2 = new Attachment(); return Essay2;} set; }
-    public Contact applicationContact { get; set; }
+    public EnrollmentrxRx__Enrollment_Opportunity__c ActiveApplication { get; set; }
     public String pageURL { get; set; }
     public boolean scholarshipClosed { get; set; }
     public boolean scholarshipOpen { get; set; }
@@ -32,6 +32,7 @@ public class ScholarshipController {
                 WHERE Open_Date__c <= TODAY AND Close_Date__c >= TODAY
                 ORDER BY Name ASC NULLS FIRST
         ];
+        ActiveApplicationId = PortalUtility.getActiveApplicationId();
         return availableScholarships;
     }
 
@@ -69,7 +70,7 @@ public class ScholarshipController {
     public void getApplicantInfo() {
         if (ScholarshipInfo != null) {
             List<Scholarship_Applicant__c> ScholarshipApplicants = [
-                    SELECT Confirmed_Criteria__c,
+                    SELECT Applicant_Email__c,Applicant_First_Name__c,Applicant_Last_Name__c,Application__c,Confirmed_Criteria__c,
                             Declared_ACT_SAT__c,Declared_GPA__c,Essay_1_Answer__c,Essay_1_Uploaded__c,Essay_2_Answer__c,
                             Essay_2_Uploaded__c,Id,Name,Question_1_Answer__c,Question_2_Answer__c,Question_3_Answer__c,
                             Question_4_Answer__c,Recommendation2__c,Recommendation__c,Recommender2_Email__c,Recommender2_Name__c,
@@ -77,7 +78,8 @@ public class ScholarshipController {
                             Essay_1_Uploaded_Orig_Filename__c, Essay_2_Uploaded_Orig_Filename__c, Scholarship_Date_Started__c, Scholarship_Date_Submitted__c,
                             Recommendation2_Request_Date__c, Recommendation_Request_Date__c
                     FROM Scholarship_Applicant__c
-                    WHERE Scholarship__c = :ScholarshipInfo.Id
+                    WHERE Application__c = :ActiveApplicationId
+                    AND Scholarship__c = :ScholarshipInfo.Id
             ];
 
 
@@ -105,9 +107,9 @@ public class ScholarshipController {
 
     public PageReference SaveCriteria() {
         //Validate input
-//        if (String.isEmpty(ScholarshipApplicant.Application__c)) {
-//            ScholarshipApplicant.Application__c = ActiveApplicationId;
-//        }
+        if (String.isEmpty(ScholarshipApplicant.Application__c)) {
+            ScholarshipApplicant.Application__c = ActiveApplicationId;
+        }
         ScholarshipApplicant.Scholarship__c = ScholarshipInfo.Id;
         ScholarshipApplicant.Scholarship_Status__c = 'Started App';
 
@@ -161,10 +163,10 @@ public class ScholarshipController {
         } catch (DmlException ex) {
             ApexPages.addMessages(ex);
         } finally {
-            applicationContact = [SELECT firstName,LastName, Email FROM Contact WHERE Id = :activeApplicationID LIMIT 1];
+            ActiveApplication = [SELECT EnrollmentrxRx__Applicant_Last_Name__c,EnrollmentrxRx__Applicant_First_Name__c, EnrollmentrxRx__Email_Address__c FROM EnrollmentrxRx__Enrollment_Opportunity__c WHERE Id = :activeApplicationID LIMIT 1];
             String styledP = '<p style="margin: 10px 0;padding: 0;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: rgb(85, 85, 85);font-family: Palatino Linotype, Georgia, serif;font-size: 16px;line-height: 150%;text-align: left;">';
             String cMessage = '<h2>Your scholarship application has been received!</h2>';
-            cMessage += styledP + applicationContact.firstName + ' ' + applicationContact.lastName + ',</p>';
+            cMessage += styledP + ActiveApplication.EnrollmentrxRx__Applicant_First_Name__c + ' ' + ActiveApplication.EnrollmentrxRx__Applicant_Last_Name__c + ',</p>';
             cMessage += styledP + 'Your application to the ' + ScholarshipInfo.Name + ' has been received.</p>';
             if (ScholarshipInfo.Description__c != null) {
                 cMessage += styledP + '<strong>Scholarship Description</strong><br/>' + ScholarshipInfo.Description__c + '</p>';
@@ -172,7 +174,7 @@ public class ScholarshipController {
             if (ScholarshipInfo.Review_Award_Process_Description__c != null) {
                 cMessage += styledP + '<strong>What happens next?</strong><br/>' + ScholarshipInfo.Review_Award_Process_Description__c + '</p>';
             }
-            sendEmail(applicationContact.FirstName + ' ' + applicationContact.LastName, applicationContact.Email, 'University of St. Thomas Scholarship', cMessage, cMessage);
+            sendEmail(ActiveApplication.EnrollmentrxRx__Applicant_First_Name__c + ' ' + ActiveApplication.EnrollmentrxRx__Applicant_Last_Name__c, ActiveApplication.EnrollmentrxRx__Email_Address__c, 'University of St. Thomas Scholarship', cMessage, cMessage);
         }
         setHistoryPage();
         return setSid(Page.ScholarshipApplicationComplete, false);
@@ -192,6 +194,7 @@ public class ScholarshipController {
         String sId = ApexPages.currentPage().getParameters().get('sid');
         if (!String.isBlank(sId)) {
             scholarshipId = sId;
+            ActiveApplicationId = PortalUtility.getActiveApplicationId();
             getScholarshipInfo();
             getApplicantInfo();
         }
@@ -200,6 +203,7 @@ public class ScholarshipController {
         String sId = ApexPages.currentPage().getParameters().get('sid');
         if (!String.isBlank(sId)) {
             scholarshipId = sId;
+            ActiveApplicationId = PortalUtility.getActiveApplicationId();
             getScholarshipInfo();
             getApplicantInfo();
         }
