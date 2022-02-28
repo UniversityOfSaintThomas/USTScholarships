@@ -6,7 +6,7 @@ public class ScholarshipRecommenderController {
     public boolean recComplete { get; set; }
 
     public ScholarshipRecommenderController() {
-        String incomingRecId = '';
+      /*  String incomingRecId = '';
 
         //get rec id from the url
         if (String.isNotBlank(ApexPages.currentPage().getParameters().get('recid'))) {
@@ -26,7 +26,7 @@ public class ScholarshipRecommenderController {
         }
 
         //Check the rest of the recId in url minus the last character to make sure it is an Id
-        if(incomingRecId.length() > 2) {
+        if (incomingRecId.length() > 2) {
             incomingRecId = incomingRecId.substring(0, incomingRecId.length() - 1);
         }
 
@@ -62,7 +62,7 @@ public class ScholarshipRecommenderController {
 
         } else {
             ApexPages.addMessage(new ApexPages.message(ApexPages.severity.ERROR, 'Could not find scholarship applicant record.'));
-        }
+        }*/
 
     }
 
@@ -77,7 +77,7 @@ public class ScholarshipRecommenderController {
         } else if (incomingRecNum == 2) {
             ScholarshipApplicant.Recommendation2_Received__c = Datetime.now();
         }
-        If(String.isNotBlank(recId)) {
+        If (String.isNotBlank(recId)) {
             CRUDToDo.saveRecommendation(ScholarshipApplicant, recId);
             recComplete = true;
         }

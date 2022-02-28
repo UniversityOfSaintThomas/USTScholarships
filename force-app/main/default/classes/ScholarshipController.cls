@@ -5,14 +5,13 @@ public class ScholarshipController {
     public Scholarship_Applicant__c ScholarshipApplicant { get; set; }
     public String Essay1Filename { get; set; }
     public String Essay2Filename { get; set; }
-    public boolean e1Text { get; set; }
-    public boolean e2Text { get; set; }
+    public Boolean e1Text { get; set; }
+    public Boolean e2Text { get; set; }
     public Attachment Essay1 { get {if (Essay1 == null) Essay1 = new Attachment(); return Essay1;} set; }
     public Attachment Essay2 { get {if (Essay2 == null) Essay2 = new Attachment(); return Essay2;} set; }
-    public EnrollmentrxRx__Enrollment_Opportunity__c ActiveApplication { get; set; }
     public String pageURL { get; set; }
-    public boolean scholarshipClosed { get; set; }
-    public boolean scholarshipOpen { get; set; }
+    public Boolean scholarshipClosed { get; set; }
+    public Boolean scholarshipOpen { get; set; }
     public Id activeApplicationID { get; set; }
     public Datetime startedDateSet { get; set; }
     public Datetime recommendRequestDate1 {get;set;}
@@ -20,8 +19,8 @@ public class ScholarshipController {
 
 
     public ScholarshipController() {
-        scholarshipClosed = false;
-        scholarshipOpen = false;
+//        scholarshipClosed = false;
+//        scholarshipOpen = false;
     }
 
     public List<Scholarship__c> getAvailableScholarships() {
@@ -32,7 +31,6 @@ public class ScholarshipController {
                 WHERE Open_Date__c <= TODAY AND Close_Date__c >= TODAY
                 ORDER BY Name ASC NULLS FIRST
         ];
-        ActiveApplicationId = PortalUtility.getActiveApplicationId();
         return availableScholarships;
     }
 
@@ -68,7 +66,7 @@ public class ScholarshipController {
     }
 
     public void getApplicantInfo() {
-        if (ScholarshipInfo != null) {
+       /* if (ScholarshipInfo != null) {
             List<Scholarship_Applicant__c> ScholarshipApplicants = [
                     SELECT Applicant_Email__c,Applicant_First_Name__c,Applicant_Last_Name__c,Application__c,Confirmed_Criteria__c,
                             Declared_ACT_SAT__c,Declared_GPA__c,Essay_1_Answer__c,Essay_1_Uploaded__c,Essay_2_Answer__c,
@@ -78,7 +76,7 @@ public class ScholarshipController {
                             Essay_1_Uploaded_Orig_Filename__c, Essay_2_Uploaded_Orig_Filename__c, Scholarship_Date_Started__c, Scholarship_Date_Submitted__c,
                             Recommendation2_Request_Date__c, Recommendation_Request_Date__c
                     FROM Scholarship_Applicant__c
-                    WHERE Application__c = :ActiveApplicationId
+                    WHERE Application__c = :activeApplicationID
                     AND Scholarship__c = :ScholarshipInfo.Id
             ];
 
@@ -102,12 +100,12 @@ public class ScholarshipController {
                 e2Text = false;
 
             }
-        }
+        }*/
     }
 
     public PageReference SaveCriteria() {
         //Validate input
-        if (String.isEmpty(ScholarshipApplicant.Application__c)) {
+        /*if (String.isEmpty(ScholarshipApplicant.Application__c)) {
             ScholarshipApplicant.Application__c = ActiveApplicationId;
         }
         ScholarshipApplicant.Scholarship__c = ScholarshipInfo.Id;
@@ -125,7 +123,8 @@ public class ScholarshipController {
         getApplicantInfo();
         pageURL = ApexPages.currentPage().getUrl();
         setHistoryPage();
-        return setSid(Page.ScholarshipApplication2, false);
+        return setSid(Page.ScholarshipApplication2, false);*/
+        return null;
     }
 
     public PageReference SaveApplication() {
@@ -141,7 +140,7 @@ public class ScholarshipController {
     }
 
     public void SaveFinishLater() {
-        try {
+/*        try {
             upsert ScholarshipApplicant;
             e1Text = !String.isEmpty(ScholarshipApplicant.Essay_1_Answer__c);
             e2Text = !String.isEmpty(ScholarshipApplicant.Essay_2_Answer__c);
@@ -151,10 +150,10 @@ public class ScholarshipController {
         String msgComplete = 'Your scholarship application has been saved and you can return to it at any time.';
         msgComplete += ' It has not been completed and will not be considered for an award until you complete it by clicking \"Save & Complete\" below.';
 
-        ApexPages.AddMessage(new ApexPages.Message(ApexPages.Severity.CONFIRM, msgComplete));
+        ApexPages.AddMessage(new ApexPages.Message(ApexPages.Severity.CONFIRM, msgComplete));*/
     }
     public PageReference SaveComplete() {
-        try {
+/*        try {
             ScholarshipApplicant.Scholarship_Complete__c = true;
             ScholarshipApplicant.Scholarship_Status__c = 'Submitted App';
             ScholarshipApplicant.Scholarship_Date_Submitted__c = Datetime.now();
@@ -163,7 +162,6 @@ public class ScholarshipController {
         } catch (DmlException ex) {
             ApexPages.addMessages(ex);
         } finally {
-            ActiveApplication = [SELECT EnrollmentrxRx__Applicant_Last_Name__c,EnrollmentrxRx__Applicant_First_Name__c, EnrollmentrxRx__Email_Address__c FROM EnrollmentrxRx__Enrollment_Opportunity__c WHERE Id = :activeApplicationID LIMIT 1];
             String styledP = '<p style="margin: 10px 0;padding: 0;mso-line-height-rule: exactly;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: rgb(85, 85, 85);font-family: Palatino Linotype, Georgia, serif;font-size: 16px;line-height: 150%;text-align: left;">';
             String cMessage = '<h2>Your scholarship application has been received!</h2>';
             cMessage += styledP + ActiveApplication.EnrollmentrxRx__Applicant_First_Name__c + ' ' + ActiveApplication.EnrollmentrxRx__Applicant_Last_Name__c + ',</p>';
@@ -177,7 +175,8 @@ public class ScholarshipController {
             sendEmail(ActiveApplication.EnrollmentrxRx__Applicant_First_Name__c + ' ' + ActiveApplication.EnrollmentrxRx__Applicant_Last_Name__c, ActiveApplication.EnrollmentrxRx__Email_Address__c, 'University of St. Thomas Scholarship', cMessage, cMessage);
         }
         setHistoryPage();
-        return setSid(Page.ScholarshipApplicationComplete, false);
+        return setSid(Page.ScholarshipApplicationComplete, false);*/
+        return null;
     }
 
     public PageReference GoHome() {
@@ -186,20 +185,23 @@ public class ScholarshipController {
     }
 
     public PageReference GoCriteria() {
-        setHistoryPage();
-        return setSid(Page.ScholarshipApplication, false);
+/*        setHistoryPage();
+        return setSid(Page.ScholarshipApplication, false);*/
+        return null;
     }
 
     public void completedPage() {
-        String sId = ApexPages.currentPage().getParameters().get('sid');
+/*        String sId = ApexPages.currentPage().getParameters().get('sid');
         if (!String.isBlank(sId)) {
             scholarshipId = sId;
             ActiveApplicationId = PortalUtility.getActiveApplicationId();
             getScholarshipInfo();
             getApplicantInfo();
-        }
+        }*/
     }
+
     public PageReference sanityCheck() {
+/*
         String sId = ApexPages.currentPage().getParameters().get('sid');
         if (!String.isBlank(sId)) {
             scholarshipId = sId;
@@ -222,6 +224,7 @@ public class ScholarshipController {
         if (!scholarshipOpen || scholarshipClosed) {
             return setSid(Page.ScholarshipClosed, false);
         }
+*/
 
         return null;
     }
@@ -260,7 +263,7 @@ public class ScholarshipController {
     }
 
     public void DeleteEssay1() {
-        List<Attachment> att1 = [select id, name from Attachment where parent.id = :ScholarshipApplicant.id AND name LIKE 'Essay1.%'];
+      /*  List<Attachment> att1 = [select id, name from Attachment where parent.id = :ScholarshipApplicant.id AND name LIKE 'Essay1.%'];
         try {
             for (Attachment att : att1) {
                 delete att;
@@ -269,7 +272,7 @@ public class ScholarshipController {
             upsert ScholarshipApplicant;
         } catch (DMLException e) {
             ApexPages.addMessage(new ApexPages.message(ApexPages.severity.ERROR, 'No attachment to delete'));
-        }
+        }*/
     }
 
     public PageReference UploadEssay2() {
@@ -298,7 +301,7 @@ public class ScholarshipController {
     }
 
     public void DeleteEssay2() {
-        List<Attachment> att1 = [select id, name from Attachment where parent.id = :ScholarshipApplicant.id AND name LIKE 'Essay2.%'];
+      /*  List<Attachment> att1 = [select id, name from Attachment where parent.id = :ScholarshipApplicant.id AND name LIKE 'Essay2.%'];
         try {
             for (Attachment att : att1) {
                 delete att;
@@ -307,7 +310,7 @@ public class ScholarshipController {
             upsert ScholarshipApplicant;
         } catch (DMLException e) {
             ApexPages.addMessage(new ApexPages.message(ApexPages.severity.ERROR, 'No attachment to delete'));
-        }
+        }*/
     }
 
     public string getFileExtension(String fn) {
@@ -382,7 +385,7 @@ public class ScholarshipController {
     }
 
     public void sendEmail(String Name, String EmailAddress, String Subject, String HTMLBodyText, String PlainBodyText) {
-        if (!String.isEmpty(EmailAddress)) {
+/*        if (!String.isEmpty(EmailAddress)) {
             // grab the email template
             EmailTemplate emailTemplate = [select Id, Subject, HtmlValue, Body from EmailTemplate where Name = '2017 Scholarship Email Template' LIMIT 1];
             OrgWideEmailAddress[] owea = [select Id from OrgWideEmailAddress where Address = 'admissions@stthomas.edu'];
@@ -425,7 +428,7 @@ public class ScholarshipController {
             Messaging.SendEmailResult [] r = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{
                     mail
             });
-        }
+        }*/
     }
     public void setHistoryPage() {
         String cPage = ApexPages.currentPage().getUrl();

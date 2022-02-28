@@ -1,6 +1,12 @@
 {
   "orgName": "USTScholarships - Release Test Org",
   "edition": "Enterprise",
+  "features": [
+    "Communities",
+    "Sites",
+    "PartnerCommunity",
+    "ForceComPlatform"
+  ],
   "settings": {
     "lightningExperienceSettings": {
       "enableS1DesktopEnabled": true
@@ -13,8 +19,15 @@
     },
     "securitySettings": {
       "enableAdminLoginAsAnyUser": true,
+      "enableAuditFieldsInactiveOwner": true,
       "sessionSettings": {
         "forceRelogin": false
       }
-    }  }
+    },
+    "languageSettings": {
+      "enableTranslationWorkbench": true
+    },
+    "orgPreferenceSettings": {
+      "networksEnabled": true
+    }
 }

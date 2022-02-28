@@ -1,6 +1,12 @@
 {
   "orgName": "USTScholarships - Beta Test Org",
   "edition": "Developer",
+  "features": [
+    "Communities",
+    "Sites",
+    "PartnerCommunity",
+    "ForceComPlatform"
+  ],
   "settings": {
     "lightningExperienceSettings": {
       "enableS1DesktopEnabled": true

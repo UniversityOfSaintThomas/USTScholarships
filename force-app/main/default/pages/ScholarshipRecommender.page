@@ -23,8 +23,8 @@
                                 </p>
                                 <p>
                                     You have been requested
-                                    by {!ScholarshipApplicant.Applicant_First_Name__c} {!ScholarshipApplicant.Applicant_Last_Name__c}
-                                    to provide a recommendation towards the {!ScholarshipApplicant.Scholarship__r.Name}.
+<!--                                    by {!ScholarshipApplicant.Applicant_First_Name__c} {!ScholarshipApplicant.Applicant_Last_Name__c}
+                                    to provide a recommendation towards the {!ScholarshipApplicant.Scholarship__r.Name}.-->
                                 </p>
                                 <p>
                                     <strong>Scholarship Description:</strong><br/>
@@ -49,8 +49,8 @@
                                 </p>
                                 <p>
                                     You have been requested
-                                    by {!ScholarshipApplicant.Applicant_First_Name__c} {!ScholarshipApplicant.Applicant_Last_Name__c}
-                                    to provide a recommendation towards the {!ScholarshipApplicant.Scholarship__r.Name}.
+                       <!--             by {!ScholarshipApplicant.Applicant_First_Name__c} {!ScholarshipApplicant.Applicant_Last_Name__c}
+                                    to provide a recommendation towards the {!ScholarshipApplicant.Scholarship__r.Name}.-->
                                 </p>
                                 <apex:outputText escape="false" value='<strong>Scholarship Description:</strong><br/>{!ScholarshipApplicant.Scholarship__r.Description__c}'/>
                                 <apex:outputText rendered="{!IF(ISNULL(ScholarshipApplicant.Scholarship__r.Recommender2_Question__c), false, true)}">
@@ -78,7 +78,7 @@
             <apex:outputPanel rendered="{!recComplete}">
                 <div class="row">
                     <div class="column">
-                        Thank you for submitting your recommendation for {!ScholarshipApplicant.Applicant_First_Name__c} {!ScholarshipApplicant.Applicant_Last_Name__c}.
+<!--                        Thank you for submitting your recommendation for {!ScholarshipApplicant.Applicant_First_Name__c} {!ScholarshipApplicant.Applicant_Last_Name__c}.-->
                     </div>
                 </div>
             </apex:outputPanel>
