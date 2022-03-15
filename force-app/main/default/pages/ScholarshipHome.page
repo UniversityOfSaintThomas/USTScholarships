@@ -1,4 +1,4 @@
-<apex:page showHeader="false" sidebar="false" standardStylesheets="false" controller="ScholarshipController" >
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" controller="ScholarshipHomeController" >
     <apex:composition template="ScholarshipTemplate" >
         <apex:define name="body">
             <script>
